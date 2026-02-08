@@ -539,7 +539,7 @@
     </div>
 
     <!-- Audio element for background music -->
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop autoplay>
         <source src="song.mp3" type="audio/mpeg">
     </audio>
 
@@ -696,8 +696,13 @@
         async function nextQuestion() {
             // Start music on first yes click
             if (!musicStarted) {
-                bgMusic.play().catch(e => console.log('Audio autoplay prevented'));
-                musicStarted = true;
+                bgMusic.play().then(() => {
+                    console.log('Music started successfully!');
+                    musicStarted = true;
+                }).catch(e => {
+                    console.log('Music autoplay prevented:', e);
+                    console.log('Music will try to play again...');
+                });
             }
             
             // Remove all "Why?" messages
@@ -868,6 +873,28 @@
         // Initialize
         createFloatingHearts();
         createPhotoSparkles();
+
+        // Try to play music immediately when page loads
+        window.addEventListener('load', () => {
+            bgMusic.play().then(() => {
+                console.log('Background music started on page load!');
+                musicStarted = true;
+            }).catch(e => {
+                console.log('Autoplay blocked on load, will try on first interaction');
+            });
+        });
+
+        // Backup: Start music on first user interaction
+        document.body.addEventListener('click', () => {
+            if (!musicStarted) {
+                bgMusic.play().then(() => {
+                    console.log('Background music started on first click!');
+                    musicStarted = true;
+                }).catch(e => {
+                    console.log('Could not start music:', e);
+                });
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
