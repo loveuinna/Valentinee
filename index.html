@@ -24,6 +24,57 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background 0.5s ease;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .progress-text {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b9d, #feca57);
+            border-radius: 20px;
+            transition: width 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.8);
+        }
+
+        .progress-hearts {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 28px;
+        }
+
+        .progress-heart {
+            transition: all 0.3s ease;
         }
 
         /* Floating hearts background animation */
@@ -175,23 +226,33 @@
             }
         }
 
-        /* Confetti hearts */
-        .confetti-heart {
+        /* Exploding hearts */
+        .exploding-heart {
             position: fixed;
             font-size: 30px;
             pointer-events: none;
             z-index: 1000;
-            animation: confetti-fall 3s ease-out forwards;
+            animation: explode-out forwards;
         }
 
-        @keyframes confetti-fall {
+        @keyframes explode-out {
             0% {
                 opacity: 1;
-                transform: translateY(0) rotate(0deg);
+                transform: translate(0, 0) scale(0.5) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(
+                    calc(var(--endX) - 50vw), 
+                    calc(var(--endY) - 50vh)
+                ) scale(1.2) rotate(360deg);
             }
             100% {
                 opacity: 0;
-                transform: translateY(100vh) rotate(720deg);
+                transform: translate(
+                    calc(var(--endX) - 50vw), 
+                    calc(var(--endY) - 50vh)
+                ) scale(0.3) rotate(720deg);
             }
         }
 
@@ -271,6 +332,166 @@
             animation: fadeIn 0.3s ease-out;
         }
 
+        /* Mini Game Overlay */
+        .game-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .game-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.5);
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+        }
+
+        .game-title {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-score {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .game-area {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .falling-heart {
+            position: absolute;
+            font-size: 40px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            user-select: none;
+        }
+
+        .falling-heart:hover {
+            transform: scale(1.2);
+        }
+
+        .close-game-btn {
+            background: white;
+            color: #764ba2;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-game-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Spinning Wheel */
+        .wheel-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 20px auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 15px solid white;
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .wheel-slice {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            top: 0;
+            left: 50%;
+            transform-origin: 0% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #feca57;
+            z-index: 10;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .spin-btn {
+            background: linear-gradient(135deg, #ff6b9d, #feca57);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.5);
+        }
+
+        .spin-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .wheel-result {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 20px;
+            min-height: 30px;
+        }
+
         /* Celebration hearts */
         .celebration-heart {
             position: fixed;
@@ -298,6 +519,7 @@
             top: 60px;
             right: 40px;
             transform: rotate(8deg);
+            cursor: pointer;
         }
 
         .photo-1:hover {
@@ -309,6 +531,7 @@
             top: 50%;
             left: 40px;
             transform: translateY(-50%) rotate(-6deg);
+            cursor: pointer;
         }
 
         .photo-2:hover {
@@ -419,6 +642,12 @@
             }
         }
 
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
         /* Video overlay */
         .video-overlay {
             position: fixed;
@@ -518,6 +747,20 @@
     <!-- Floating hearts background -->
     <div class="heart-container" id="heartContainer"></div>
 
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-text" id="progressText">Love Quest Progress: 0%</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="progress-hearts" id="progressHearts">
+            <span class="progress-heart">🤍</span>
+            <span class="progress-heart">🤍</span>
+            <span class="progress-heart">🤍</span>
+            <span class="progress-heart">🤍</span>
+        </div>
+    </div>
+
     <!-- Photo Collage -->
     <div class="photo-frame photo-1">
         <img src="5204385673169801773.jpg" alt="Photo 1">
@@ -555,6 +798,20 @@
         let currentQuestion = 0;
         let yesButtonScale = 1;
         let musicStarted = false;
+        let noClickCount = 0;
+        
+        const noButtonTexts = [
+            "No 😈",
+            "Are you sure? 😢",
+            "Think again 👀",
+            "Wrong answer 😌",
+            "Nice try 😭",
+            "You can't escape 😏",
+            "Really? 🥺",
+            "Come on... 💔",
+            "Please? 🙏",
+            "Last chance! 😤"
+        ];
 
         // Elements
         const yesBtn = document.getElementById('yesBtn');
@@ -642,6 +899,52 @@
                 noBtn.style.position = 'absolute';
             }
             
+            noClickCount++;
+            
+            // Change No button text
+            if (noClickCount < noButtonTexts.length) {
+                noBtn.textContent = noButtonTexts[noClickCount];
+            }
+            
+            // Screen shake effect after 3 No clicks
+            if (noClickCount >= 3) {
+                document.body.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 500);
+            }
+            
+            // Show "Error 404" popup after 5 No clicks
+            if (noClickCount === 5) {
+                const errorPopup = document.createElement('div');
+                errorPopup.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    padding: 30px;
+                    border-radius: 20px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                    z-index: 10000;
+                    text-align: center;
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #764ba2;
+                `;
+                errorPopup.innerHTML = `
+                    <div style="font-size: 48px; margin-bottom: 15px;">⚠️</div>
+                    <div>Error 404:</div>
+                    <div>"No" option not available 😌</div>
+                `;
+                document.body.appendChild(errorPopup);
+                
+                setTimeout(() => {
+                    errorPopup.style.animation = 'fadeOut 0.5s ease-out forwards';
+                    setTimeout(() => errorPopup.remove(), 500);
+                }, 2000);
+            }
+            
             const container = buttonContainer.getBoundingClientRect();
             const button = noBtn.getBoundingClientRect();
             
@@ -672,23 +975,36 @@
             document.body.appendChild(whyMsg);
         }
 
-        // Create confetti hearts
-        function createConfetti() {
-            const hearts = ['💕', '💖', '💗', '💓', '💝', '💞'];
-            for (let i = 0; i < 30; i++) {
+        // Create exploding hearts animation
+        function createExplodingHearts() {
+            const hearts = ['💕', '💖', '💗', '💓', '💝', '💞', '❤️', '💗'];
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            // Create 50 hearts exploding from center
+            for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.classList.add('confetti-heart');
-                    confetti.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-50px';
-                    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
-                    document.body.appendChild(confetti);
-
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 3000);
-                }, i * 50);
+                    const heart = document.createElement('div');
+                    heart.classList.add('exploding-heart');
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    // Random angle and distance
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 400 + 200;
+                    const endX = centerX + Math.cos(angle) * distance;
+                    const endY = centerY + Math.sin(angle) * distance;
+                    
+                    heart.style.left = centerX + 'px';
+                    heart.style.top = centerY + 'px';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.setProperty('--endX', endX + 'px');
+                    heart.style.setProperty('--endY', endY + 'px');
+                    heart.style.animationDuration = (Math.random() * 1 + 1.5) + 's';
+                    
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 2500);
+                }, i * 20);
             }
         }
 
@@ -708,11 +1024,24 @@
             // Remove all "Why?" messages
             document.querySelectorAll('.why-message').forEach(msg => msg.remove());
 
-            // Play video first
-            await playVideo();
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Love Quest Progress: ${Math.round(progress)}%`;
+            
+            // Update progress hearts
+            const progressHearts = document.querySelectorAll('.progress-heart');
+            progressHearts[currentQuestion].textContent = '❤️';
+            
+            // Change background color gradually to more pink
+            const pinkness = currentQuestion / questions.length;
+            document.body.style.background = `linear-gradient(135deg, 
+                rgb(${102 + pinkness * 153}, ${126 - pinkness * 40}, ${234 - pinkness * 74}), 
+                rgb(${118 + pinkness * 137}, ${75 + pinkness * 32}, ${162 - pinkness * 52}), 
+                #f093fb)`;
 
-            // Create confetti
-            createConfetti();
+            // Create exploding hearts animation
+            createExplodingHearts();
 
             // Fade out current content
             question.classList.add('fade-out');
@@ -738,6 +1067,8 @@
                     noBtn.style.left = '';
                     noBtn.style.top = '';
                     noBtn.style.position = 'relative';
+                    noBtn.textContent = 'No 😈';
+                    noClickCount = 0;
                     
                     // Reset Yes button scale
                     yesButtonScale = 1;
@@ -756,25 +1087,38 @@
         }
 
         // Final celebration screen
-        function showFinalCelebration() {
+        async function showFinalCelebration() {
+            // Play video first
+            await playVideo();
+            
             // Clear content
             document.getElementById('mainContent').innerHTML = '';
 
-            // Create massive confetti
+            // Create massive exploding hearts
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const hearts = ['💕', '💖', '💗', '💓', '💝', '💞', '❤️', '🥰'];
-                    const confetti = document.createElement('div');
-                    confetti.classList.add('confetti-heart');
-                    confetti.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-50px';
-                    confetti.style.fontSize = (Math.random() * 20 + 30) + 'px';
-                    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
-                    document.body.appendChild(confetti);
+                    const heart = document.createElement('div');
+                    heart.classList.add('exploding-heart');
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    const centerX = window.innerWidth / 2;
+                    const centerY = window.innerHeight / 2;
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 500 + 300;
+                    const endX = centerX + Math.cos(angle) * distance;
+                    const endY = centerY + Math.sin(angle) * distance;
+                    
+                    heart.style.left = centerX + 'px';
+                    heart.style.top = centerY + 'px';
+                    heart.style.fontSize = (Math.random() * 20 + 30) + 'px';
+                    heart.style.setProperty('--endX', endX + 'px');
+                    heart.style.setProperty('--endY', endY + 'px');
+                    heart.style.animationDuration = (Math.random() * 1 + 2) + 's';
+                    document.body.appendChild(heart);
 
                     setTimeout(() => {
-                        confetti.remove();
+                        heart.remove();
                     }, 3000);
                 }, i * 60);
             }
@@ -825,6 +1169,51 @@
             gifContainer.classList.add('gif-container');
             gifContainer.innerHTML = '<img src="https://media.giphy.com/media/G96zgIcQn1L2xpmdxi/giphy.gif" alt="Big beating heart">';
             document.getElementById('mainContent').appendChild(gifContainer);
+            
+            // Typewriter ending after 10 seconds
+            setTimeout(() => {
+                // Fade everything to black
+                const blackScreen = document.createElement('div');
+                blackScreen.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: black;
+                    z-index: 99999;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    animation: fadeIn 2s ease-out;
+                `;
+                
+                const typewriterText = document.createElement('div');
+                typewriterText.style.cssText = `
+                    color: white;
+                    font-size: clamp(20px, 4vw, 32px);
+                    text-align: center;
+                    padding: 20px;
+                    max-width: 800px;
+                    line-height: 1.8;
+                `;
+                
+                blackScreen.appendChild(typewriterText);
+                document.body.appendChild(blackScreen);
+                
+                // Typewriter effect
+                const finalText = "This wasn't just a website. I made this because you matter. Every line of code, every animation, every heart... all for you. 💖";
+                let charIndex = 0;
+                
+                const typeInterval = setInterval(() => {
+                    if (charIndex < finalText.length) {
+                        typewriterText.textContent += finalText[charIndex];
+                        charIndex++;
+                    } else {
+                        clearInterval(typeInterval);
+                    }
+                }, 50);
+            }, 10000);
         }
 
         // Event listeners
@@ -870,9 +1259,172 @@
             }, 800);
         }
 
+        // Catch the Hearts Game
+        function startCatchHeartsGame() {
+            const overlay = document.createElement('div');
+            overlay.classList.add('game-overlay');
+            
+            const container = document.createElement('div');
+            container.classList.add('game-container');
+            
+            let score = 0;
+            let gameInterval;
+            
+            container.innerHTML = `
+                <div class="game-title">💕 Catch the Hearts! 💕</div>
+                <div class="game-score">Score: <span id="catchScore">0</span> / 10</div>
+                <div class="game-area" id="catchGameArea"></div>
+                <button class="close-game-btn" onclick="this.parentElement.parentElement.remove()">Close</button>
+            `;
+            
+            overlay.appendChild(container);
+            document.body.appendChild(overlay);
+            
+            const gameArea = document.getElementById('catchGameArea');
+            const scoreDisplay = document.getElementById('catchScore');
+            
+            // Spawn falling hearts
+            gameInterval = setInterval(() => {
+                if (score >= 10) {
+                    clearInterval(gameInterval);
+                    gameArea.innerHTML = '<div style="color: white; font-size: 24px; padding: 50px; line-height: 1.6;">You caught my heart.<br>Now you\'re stuck with me 💘</div>';
+                    return;
+                }
+                
+                const heart = document.createElement('div');
+                heart.classList.add('falling-heart');
+                heart.innerHTML = ['💕', '💖', '💗', '💓', '💝'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * (gameArea.offsetWidth - 50) + 'px';
+                heart.style.top = '-50px';
+                
+                heart.addEventListener('click', () => {
+                    score++;
+                    scoreDisplay.textContent = score;
+                    heart.remove();
+                    
+                    // Sparkle effect
+                    const sparkle = document.createElement('div');
+                    sparkle.textContent = '+1 ✨';
+                    sparkle.style.cssText = `
+                        position: absolute;
+                        left: ${heart.style.left};
+                        top: ${heart.style.top};
+                        color: #feca57;
+                        font-weight: bold;
+                        pointer-events: none;
+                        animation: fadeOut 1s ease-out forwards;
+                    `;
+                    gameArea.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 1000);
+                });
+                
+                gameArea.appendChild(heart);
+                
+                // Animate heart falling
+                let position = -50;
+                const fallInterval = setInterval(() => {
+                    position += 3;
+                    heart.style.top = position + 'px';
+                    
+                    if (position > gameArea.offsetHeight) {
+                        heart.remove();
+                        clearInterval(fallInterval);
+                    }
+                }, 30);
+            }, 800);
+        }
+
+        // Spin the Love Wheel Game
+        function startSpinWheelGame() {
+            const overlay = document.createElement('div');
+            overlay.classList.add('game-overlay');
+            
+            const container = document.createElement('div');
+            container.classList.add('game-container');
+            
+            const prizes = [
+                { text: '10 Kisses 💋', color: '#ff6b9d' },
+                { text: 'Movie Night 🎬', color: '#c06c84' },
+                { text: 'You Choose Date 🌹', color: '#f093fb' },
+                { text: 'Free Hug Pass 🤗', color: '#667eea' },
+                { text: 'Princess Treatment 👑', color: '#764ba2' }
+            ];
+            
+            let isSpinning = false;
+            let currentRotation = 0;
+            
+            container.innerHTML = `
+                <div class="game-title">💖 Spin the Love Wheel! 💖</div>
+                <div class="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="loveWheel"></div>
+                </div>
+                <div class="wheel-result" id="wheelResult"></div>
+                <button class="spin-btn" id="spinBtn">SPIN! 🎯</button>
+                <button class="close-game-btn" style="margin-top: 20px;" onclick="this.parentElement.parentElement.remove()">Close</button>
+            `;
+            
+            overlay.appendChild(container);
+            document.body.appendChild(overlay);
+            
+            const wheel = document.getElementById('loveWheel');
+            const spinBtn = document.getElementById('spinBtn');
+            const resultDiv = document.getElementById('wheelResult');
+            
+            // Create wheel slices
+            const sliceAngle = 360 / prizes.length;
+            prizes.forEach((prize, index) => {
+                const slice = document.createElement('div');
+                slice.classList.add('wheel-slice');
+                slice.textContent = prize.text;
+                slice.style.background = prize.color;
+                slice.style.transform = `rotate(${index * sliceAngle}deg) skewY(${90 - sliceAngle}deg)`;
+                wheel.appendChild(slice);
+            });
+            
+            spinBtn.addEventListener('click', () => {
+                if (isSpinning) return;
+                
+                isSpinning = true;
+                spinBtn.disabled = true;
+                resultDiv.textContent = '';
+                
+                // Random spins
+                const spins = 5 + Math.random() * 3;
+                const randomDegree = Math.random() * 360;
+                const totalRotation = spins * 360 + randomDegree;
+                
+                currentRotation += totalRotation;
+                wheel.style.transform = `rotate(${currentRotation}deg)`;
+                
+                setTimeout(() => {
+                    const finalAngle = currentRotation % 360;
+                    const prizeIndex = Math.floor((360 - finalAngle) / sliceAngle) % prizes.length;
+                    const wonPrize = prizes[prizeIndex];
+                    
+                    resultDiv.textContent = `You won: ${wonPrize.text}`;
+                    resultDiv.style.color = wonPrize.color;
+                    
+                    isSpinning = false;
+                    spinBtn.disabled = false;
+                }, 4000);
+            });
+        }
+
         // Initialize
         createFloatingHearts();
         createPhotoSparkles();
+        
+        // Add click handlers to photos
+        document.querySelector('.photo-1').addEventListener('click', (e) => {
+            e.stopPropagation();
+            startCatchHeartsGame();
+        });
+        
+        document.querySelector('.photo-2').addEventListener('click', (e) => {
+            e.stopPropagation();
+            startSpinWheelGame();
+        });
 
         // Try to play music immediately when page loads
         window.addEventListener('load', () => {
